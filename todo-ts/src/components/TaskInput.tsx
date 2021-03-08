@@ -1,5 +1,5 @@
 import { Button, Grid, makeStyles, TextField } from '@material-ui/core';
-import { ChangeEvent, useState } from 'react';
+import { useRef } from 'react';
 import { CreateTask } from '../Types';
 
 type Props = {
@@ -19,15 +19,11 @@ const useStyles = makeStyles((theme) => ({
 
 function TaskInput({ createTask }: Props) {
   const classes = useStyles();
-  const [title, setTitle] = useState<string>('')
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value)
-  }
+  const titleElm = useRef<any>()
 
   const onClick = () => {
-    createTask(title);
-    setTitle('');
+    createTask(titleElm.current.value);
+    titleElm.current.value = ""
   }
 
   return (
@@ -35,9 +31,8 @@ function TaskInput({ createTask }: Props) {
       <Grid item xs={12} className={classes.root}>
         <TextField
           type="text"
-          value={title}
+          inputRef={titleElm}
           className={classes.textfield}
-          onChange={onChange}
         />
         <Button
           color="primary"

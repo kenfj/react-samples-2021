@@ -5,7 +5,7 @@
 * using the latest version, tools and practices as of 2021.03.
   - TypeScript
   - Function Component
-  - React Hooks (useState, useReducer, createContext, custom hook)
+  - React Hooks (useState, useReducer, useRef, createContext, custom hook)
   - Material-UI and makeStyles (not App.css)
   - Tests with Jest and React Testing Library (not Enzyme)
   - Mock Service Worker
