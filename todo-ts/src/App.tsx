@@ -1,26 +1,24 @@
 import { Backdrop, CircularProgress, Grid, makeStyles, Paper, Snackbar } from '@material-ui/core';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { createContext } from 'react';
 import TaskInput from './components/TaskInput';
 import TaskList from './components/TaskList';
+import useDarkMode from './hooks/DarkMode';
 import useTodoApi from './hooks/TodoApi';
 import { DeleteTask, Task, UpdateTask } from './Types';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  paper: {
     flexGrow: 1,
     maxWidth: 700,
-    margin: "0 auto",
-    padding: theme.spacing(5),
-  },
-  paper: {
+    margin: "50px auto",
     padding: theme.spacing(5),
     textAlign: 'center',
-    color: theme.palette.text.primary,
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
   },
 }));
 
@@ -30,10 +28,18 @@ export const AppContext = createContext<[UpdateTask, DeleteTask]>([
 
 function App() {
   const classes = useStyles();
-  const [{taskState, msgState}, api] = useTodoApi("http://localhost:3000");
+  const [{ taskState, msgState }, api] = useTodoApi("http://localhost:3000");
+  const isDark = useDarkMode()
+
+  // React + Material-UIでダークモードを実装してみた
+  // https://dev.classmethod.jp/articles/react-material-ui-dark-mode/
+  const theme = createMuiTheme({
+    palette: { type: isDark ? "dark" : "light", },
+  })
 
   return (
-    <div className={classes.root}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Paper elevation={5} className={classes.paper}>
         <Grid container spacing={5}>
           <Grid item xs={12}>
@@ -54,7 +60,7 @@ function App() {
           {msgState.message}
         </Alert>
       </Snackbar>
-    </div>
+    </ThemeProvider>
   )
 };
 

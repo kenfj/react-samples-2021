@@ -20,7 +20,7 @@ const initMsg: MsgState = {
 
 const useTodoApi: TodoApi = (baseURL: string) => {
   instance.defaults.baseURL = baseURL;
-  
+
   const [taskState, taskDispatch] = useReducer(TaskReducer, initTasks);
   const [msgState, setMsgState] = useState(initMsg);
 
